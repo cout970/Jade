@@ -12,11 +12,13 @@ public class Auction {
 
     private List<AID> buyers = new ArrayList<>();
     private float currentPrize;
-
+    private float reservationPrize;
     private Book book;
 
-    public void updateBuyers(List<AID> newBuyers){
-        buyers = new ArrayList<>(newBuyers);
+    public Auction(float currentPrize, float reservationPrize, Book book) {
+        this.currentPrize = currentPrize;
+        this.reservationPrize = reservationPrize;
+        this.book = book;
     }
 
     public List<AID> getBuyers() {
@@ -27,7 +29,15 @@ public class Auction {
         return currentPrize;
     }
 
+    public float getReservationPrize() {
+        return reservationPrize;
+    }
+
     public Book getBook() {
         return book;
+    }
+
+    public void setCurrentPrize(float currentPrize) {
+        this.currentPrize = currentPrize;
     }
 }

@@ -1,7 +1,8 @@
 package cout970.auction.agents;
 
 import cout970.auction.Auction;
-import cout970.auction.behaviour.InformBuyers;
+import cout970.auction.Book;
+import cout970.auction.behaviour.StartAuction;
 import jade.core.Agent;
 
 /**
@@ -13,9 +14,10 @@ public class Seller extends Agent {
 
     @Override
     protected void setup() {
-        auction = new Auction();
+        Book book = new Book("12345", "Libro 1");
+        auction = new Auction(10.0f, 20.0f, book);
 
-        addBehaviour(new InformBuyers(this));
+        addBehaviour(new StartAuction(this));
     }
 
     public Auction getAuction() {
