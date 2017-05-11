@@ -1,5 +1,6 @@
-package cout970.auction;
+package cout970.auction.seller;
 
+import cout970.auction.Book;
 import jade.core.AID;
 
 import java.util.ArrayList;
@@ -10,7 +11,10 @@ import java.util.List;
  */
 public class Auction {
 
+    // Compradores en la subasta
     private List<AID> buyers = new ArrayList<>();
+    // Compradores dispuestos a pujar
+    private List<AID> interestedBuyers = new ArrayList<>();
     private float currentPrize;
     private float reservationPrize;
     private Book book;
@@ -23,6 +27,10 @@ public class Auction {
 
     public List<AID> getBuyers() {
         return buyers;
+    }
+
+    public List<AID> getInterestedBuyers() {
+        return interestedBuyers;
     }
 
     public float getCurrentPrize() {

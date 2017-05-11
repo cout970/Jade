@@ -1,8 +1,9 @@
-package cout970.auction.agents;
+package cout970.auction.buyer;
 
-import cout970.auction.AuctionRef;
 import cout970.auction.Book;
-import cout970.auction.behaviour.ListenStartAuction;
+import cout970.auction.behaviour.BuyerListenBidResponse;
+import cout970.auction.behaviour.BuyerListenStartAuction;
+import cout970.auction.behaviour.BuyerReceivePriceFromSeller;
 import cout970.auction.util.YellowPages;
 import jade.core.Agent;
 
@@ -19,7 +20,9 @@ public class Buyer extends Agent {
     @Override
     protected void setup() {
         YellowPages.register(this);
-        addBehaviour(new ListenStartAuction(this));
+        addBehaviour(new BuyerListenStartAuction(this));
+        addBehaviour(new BuyerReceivePriceFromSeller(this));
+        addBehaviour(new BuyerListenBidResponse(this));
     }
 
     public Map<Book, AuctionRef> getAuctions() {
