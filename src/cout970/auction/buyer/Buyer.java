@@ -1,9 +1,9 @@
 package cout970.auction.buyer;
 
 import cout970.auction.Book;
-import cout970.auction.behaviour.BuyerListenBidResponse;
-import cout970.auction.behaviour.BuyerListenStartAuction;
-import cout970.auction.behaviour.BuyerReceivePriceFromSeller;
+import cout970.auction.buyer.behaviour.BuyerListenBidResponse;
+import cout970.auction.buyer.behaviour.BuyerListenStartAuction;
+import cout970.auction.buyer.behaviour.BuyerReceivePriceFromSeller;
 import cout970.auction.util.YellowPages;
 import jade.core.Agent;
 

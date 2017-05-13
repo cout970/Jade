@@ -1,4 +1,4 @@
-package cout970.auction.behaviour;
+package cout970.auction.buyer.behaviour;
 
 import cout970.auction.Bid;
 import cout970.auction.Book;

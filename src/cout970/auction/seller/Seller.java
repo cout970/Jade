@@ -1,10 +1,10 @@
 package cout970.auction.seller;
 
 import cout970.auction.Book;
-import cout970.auction.behaviour.SellerListenBids;
-import cout970.auction.behaviour.SellerSendPrizeToBuyers;
-import cout970.auction.behaviour.SellerStartAuction;
-import cout970.auction.behaviour.SellerUpdatePrice;
+import cout970.auction.seller.behaviour.SellerListenBids;
+import cout970.auction.seller.behaviour.SellerSendPrizeToBuyers;
+import cout970.auction.seller.behaviour.SellerStartAuction;
+import cout970.auction.seller.behaviour.SellerUpdatePrice;
 import jade.core.Agent;
 
 import javax.swing.*;

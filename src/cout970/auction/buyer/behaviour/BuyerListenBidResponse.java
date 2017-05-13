@@ -1,4 +1,4 @@
-package cout970.auction.behaviour;
+package cout970.auction.buyer.behaviour;
 
 import cout970.auction.buyer.Buyer;
 import jade.core.behaviours.CyclicBehaviour;
