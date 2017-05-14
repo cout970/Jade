@@ -36,6 +36,19 @@ public class YellowPages {
         }
     }
 
+    public static void unregister(Agent agent) {
+        try {
+            DFAgentDescription description = new DFAgentDescription();
+
+            description.setName(agent.getAID());
+            description.addServices(serviceDescription);
+
+            DFService.deregister(agent, description);
+        } catch (FIPAException fe) {
+            fe.printStackTrace();
+        }
+    }
+
     public static List<AID> search(Agent agent) {
         DFAgentDescription filter = new DFAgentDescription();
         filter.addServices(serviceDescription);

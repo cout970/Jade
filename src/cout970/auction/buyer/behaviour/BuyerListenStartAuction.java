@@ -1,7 +1,7 @@
 package cout970.auction.buyer.behaviour;
 
-import cout970.auction.Bid;
-import cout970.auction.Book;
+import cout970.auction.domain.Bid;
+import cout970.auction.domain.Book;
 import cout970.auction.buyer.AuctionRef;
 import cout970.auction.buyer.Buyer;
 import cout970.auction.util.MsgHelper;

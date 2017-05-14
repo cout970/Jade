@@ -1,8 +1,9 @@
 package cout970.auction.seller.behaviour;
 
-import cout970.auction.Bid;
+import cout970.auction.domain.Bid;
 import cout970.auction.seller.Auction;
 import cout970.auction.seller.Seller;
+import cout970.auction.util.Event;
 import cout970.auction.util.MsgBuilder;
 import cout970.auction.util.YellowPages;
 import jade.content.lang.sl.SLCodec;
@@ -19,8 +20,11 @@ public class SellerStartAuction extends OneShotBehaviour {
 
     private static final SLCodec CODEC = new SLCodec();
 
-    public SellerStartAuction(Seller a) {
+    private Auction auction;
+
+    public SellerStartAuction(Seller a, Auction auction) {
         super(a);
+        this.auction = auction;
     }
 
     @Override
@@ -30,21 +34,20 @@ public class SellerStartAuction extends OneShotBehaviour {
 
     @Override
     public void action() {
-
-        Auction auction = getAgent().getAuction();
         updateBuyers(auction);
         Bid bid = new Bid(auction.getBook(), auction.getCurrentPrize());
 
         ACLMessage msg = new MsgBuilder()
                 .setPerformative(ACLMessage.INFORM)
                 .setSender(getAgent())
-                .setReceivers(getAgent().getAuction().getBuyers())
+                .setReceivers(auction.getBuyers())
                 .setConversationId("inform-start-of-auction")
                 .setContentObj(bid)
+                .setContentManager(getAgent().getContentManager())
                 .build();
 
         getAgent().send(msg);
-        System.out.println("["+getAgent().getLocalName()+"] Starting auction");
+        getAgent().addEvent(new Event("Inicio de la subasta", "Invitados "+auction.getBuyers().size()+" compradores"));
         getAgent().sendPriceToBuyers();
     }
 

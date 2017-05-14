@@ -1,6 +1,6 @@
 package cout970.auction.buyer.behaviour;
 
-import cout970.auction.Bid;
+import cout970.auction.domain.Bid;
 import cout970.auction.buyer.AuctionRef;
 import cout970.auction.buyer.Buyer;
 import cout970.auction.util.MsgBuilder;
@@ -66,6 +66,7 @@ public class BuyerReceivePriceFromSeller extends CyclicBehaviour {
                 .setReceiver(ref.getSeller())
                 .setConversationId("auction-bid")
                 .setContentObj(bid)
+                .setContentManager(getAgent().getContentManager())
                 .build();
 
         getAgent().send(response);

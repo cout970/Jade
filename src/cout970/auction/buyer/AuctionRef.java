@@ -1,6 +1,6 @@
 package cout970.auction.buyer;
 
-import cout970.auction.Book;
+import cout970.auction.domain.Book;
 import jade.core.AID;
 
 /**

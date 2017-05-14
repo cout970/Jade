@@ -1,8 +1,9 @@
 package cout970.auction.seller.behaviour;
 
-import cout970.auction.Bid;
+import cout970.auction.domain.Bid;
 import cout970.auction.seller.Auction;
 import cout970.auction.seller.Seller;
+import cout970.auction.util.Event;
 import cout970.auction.util.MsgBuilder;
 import cout970.auction.util.MsgHelper;
 import jade.core.behaviours.CyclicBehaviour;
@@ -37,15 +38,16 @@ public class SellerListenBids extends CyclicBehaviour {
 
         boolean accept = msg.getPerformative() == ACLMessage.PROPOSE;
         Bid bid = MsgHelper.getContentObj(msg);
-        Auction auction = getAgent().getAuction();
-
-        System.out.print("[" + getAgent().getLocalName() + "] Received msg from buyer: " + msg.getSender().getLocalName() + "; ");
-        System.out.println(accept ? "Acepta la puja de " + bid.getPrice() : "Se retira");
+        Auction auction = getAgent().getAuctions().get(bid.getBook());
+        if (auction == null) {
+            return;
+        }
 
         if (!accept) {
             return;
         }
         int perfomative;
+        getAgent().addEvent(new Event("Puja", msg.getSender().getLocalName() + " ha pujado "+String.format("%.2f", bid.getPrice())));
 
         if (bid.getPrice() == auction.getCurrentPrize()) {
             perfomative = ACLMessage.ACCEPT_PROPOSAL;
@@ -60,6 +62,7 @@ public class SellerListenBids extends CyclicBehaviour {
                 .setReceiver(msg.getSender())
                 .setConversationId("bid-response")
                 .setContentObj(bid)
+                .setContentManager(getAgent().getContentManager())
                 .build();
 
         getAgent().send(response);

@@ -1,11 +1,11 @@
-package cout970.auction;
+package cout970.auction.domain;
 
-import java.io.Serializable;
+import jade.content.ContentElement;
 
 /**
  * Created by cout970 on 2017/05/11.
  */
-public class Bid implements Serializable {
+public class Bid implements ContentElement {
 
     private Book book;
     private float price;

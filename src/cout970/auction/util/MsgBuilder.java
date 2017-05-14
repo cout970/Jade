@@ -1,13 +1,13 @@
 package cout970.auction.util;
 
-import com.google.gson.GsonBuilder;
+import jade.content.ContentElement;
+import jade.content.ContentManager;
 import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +23,14 @@ public class MsgBuilder {
     private String conversationId;
     private int performative;
     private String content;
-    private Serializable contentObj;
+    private ContentElement contentObj;
+    private ContentManager contentManager;
 
     public MsgBuilder setSender(AID sender) {
         this.sender = sender;
         return this;
     }
+
     public MsgBuilder setSender(Agent sender) {
         this.sender = sender.getAID();
         return this;
@@ -54,9 +56,8 @@ public class MsgBuilder {
         return this;
     }
 
-    public MsgBuilder setContentObj(Serializable contentObj) {
-        this.content = new GsonBuilder().create().toJson(contentObj);
-//        this.contentObj = contentObj;
+    public MsgBuilder setContentObj(ContentElement contentObj) {
+        this.contentObj = contentObj;
         return this;
     }
 
@@ -65,24 +66,35 @@ public class MsgBuilder {
         return this;
     }
 
-    public ACLMessage build(){
+    public MsgBuilder setContentManager(ContentManager contentManager) {
+        this.contentManager = contentManager;
+        return this;
+    }
+
+    public ACLMessage build() {
         ACLMessage msg = new ACLMessage(performative);
 
-        if(content != null) {
+        if (content != null) {
             msg.setContent(content);
         }
 
-        if(contentObj != null) {
+        msg.setLanguage(CODEC.getName());
+        if (contentObj != null && contentManager != null) {
             try {
                 msg.setContentObject(contentObj);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+//            try {
+//                contentManager.fillContent(msg, contentObj);
+//            } catch (Codec.CodecException | OntologyException e) {
+//                e.printStackTrace();
+//            }
         }
-        if (conversationId != null){
+
+        if (conversationId != null) {
             msg.setConversationId(conversationId);
         }
-        msg.setLanguage(CODEC.getName());
 
         msg.setSender(sender);
         for (AID receiver : receivers) {

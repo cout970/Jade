@@ -1,6 +1,6 @@
 package cout970.auction.seller.behaviour;
 
-import cout970.auction.Bid;
+import cout970.auction.domain.Bid;
 import cout970.auction.seller.Auction;
 import cout970.auction.seller.Seller;
 import cout970.auction.util.MsgBuilder;
@@ -23,18 +23,21 @@ public class SellerSendPrizeToBuyers extends OneShotBehaviour {
 
     @Override
     public void action() {
-        System.out.println("["+getAgent().getLocalName()+"] Sending Prize To Buyers");
-        Auction auction = getAgent().getAuction();
-        Bid bid = new Bid(auction.getBook(), auction.getCurrentPrize());
+        System.out.println("[" + getAgent().getLocalName() + "] Sending Prize To Buyers");
+        for (Auction auction : getAgent().getAuctions().values()) {
 
-        ACLMessage msg = new MsgBuilder()
-                .setPerformative(ACLMessage.INFORM)
-                .setSender(getAgent())
-                .setReceivers(getAgent().getAuction().getBuyers())
-                .setConversationId("cfp-1")
-                .setContentObj(bid)
-                .build();
+            Bid bid = new Bid(auction.getBook(), auction.getCurrentPrize());
 
-        getAgent().send(msg);
+            ACLMessage msg = new MsgBuilder()
+                    .setPerformative(ACLMessage.INFORM)
+                    .setSender(getAgent())
+                    .setReceivers(auction.getBuyers())
+                    .setConversationId("cfp-1")
+                    .setContentObj(bid)
+                    .setContentManager(getAgent().getContentManager())
+                    .build();
+
+            getAgent().send(msg);
+        }
     }
 }

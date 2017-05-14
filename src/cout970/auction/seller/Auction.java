@@ -1,10 +1,11 @@
 package cout970.auction.seller;
 
-import cout970.auction.Book;
+import cout970.auction.domain.Book;
 import jade.core.AID;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Created by cout970 on 5/10/17.
@@ -16,13 +17,44 @@ public class Auction {
     // Compradores dispuestos a pujar
     private List<AID> interestedBuyers = new ArrayList<>();
     private float currentPrize;
+
+    // Compradores que pujaron en la ultima ronda
+    private List<AID> lastInterestedBuyers = new ArrayList<>();
+    private float lastPrice;
+
     private float reservationPrize;
     private Book book;
+
+    private List<Consumer<Float>> listeners = new ArrayList<>();
 
     public Auction(float currentPrize, float reservationPrize, Book book) {
         this.currentPrize = currentPrize;
         this.reservationPrize = reservationPrize;
         this.book = book;
+    }
+
+    public void onIncreasePrice(float newPrice){
+
+        lastInterestedBuyers.clear();
+        lastInterestedBuyers.addAll(interestedBuyers);
+        interestedBuyers.clear();
+
+        lastPrice = currentPrize;
+        currentPrize = newPrice;
+
+        listeners.forEach((it) -> it.accept(currentPrize));
+    }
+
+    public List<AID> getLastInterestedBuyers() {
+        return lastInterestedBuyers;
+    }
+
+    public float getLastPrice() {
+        return lastPrice;
+    }
+
+    public void setListeners(List<Consumer<Float>> listeners) {
+        this.listeners = listeners;
     }
 
     public List<AID> getBuyers() {
@@ -45,7 +77,7 @@ public class Auction {
         return book;
     }
 
-    public void setCurrentPrize(float currentPrize) {
-        this.currentPrize = currentPrize;
+    public void onEnd() {
+        listeners.forEach((it) -> it.accept(currentPrize));
     }
 }
