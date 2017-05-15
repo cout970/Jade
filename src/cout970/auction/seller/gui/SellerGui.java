@@ -1,7 +1,7 @@
 package cout970.auction.seller.gui;
 
-import cout970.auction.domain.Book;
 import cout970.auction.seller.Seller;
+import cout970.ontology.Book;
 
 import javax.swing.*;
 

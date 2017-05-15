@@ -1,11 +1,12 @@
 package cout970.auction.seller.behaviour;
 
-import cout970.auction.domain.Bid;
 import cout970.auction.seller.Auction;
 import cout970.auction.seller.Seller;
 import cout970.auction.util.Event;
 import cout970.auction.util.MsgBuilder;
 import cout970.auction.util.MsgHelper;
+import cout970.ontology.Bid;
+import cout970.ontology.BidUp;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -37,12 +38,14 @@ public class SellerListenBids extends CyclicBehaviour {
         }
 
         boolean accept = msg.getPerformative() == ACLMessage.PROPOSE;
-        Bid bid = MsgHelper.getContentObj(msg);
+        BidUp content = MsgHelper.getContentObj(msg, getAgent().getContentManager());
+
+        Bid bid = content.getBid();
         Auction auction = getAgent().getAuctions().get(bid.getBook());
+
         if (auction == null) {
             return;
         }
-
         if (!accept) {
             return;
         }
@@ -61,7 +64,7 @@ public class SellerListenBids extends CyclicBehaviour {
                 .setSender(getAgent())
                 .setReceiver(msg.getSender())
                 .setConversationId("bid-response")
-                .setContentObj(bid)
+                .setContentObj(new BidUp(bid))
                 .setContentManager(getAgent().getContentManager())
                 .build();
 

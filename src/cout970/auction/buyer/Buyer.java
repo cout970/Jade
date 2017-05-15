@@ -3,9 +3,10 @@ package cout970.auction.buyer;
 import cout970.auction.buyer.behaviour.BuyerListenBidResponse;
 import cout970.auction.buyer.behaviour.BuyerListenStartAuction;
 import cout970.auction.buyer.behaviour.BuyerReceivePriceFromSeller;
-import cout970.auction.domain.Book;
+import cout970.auction.util.MsgBuilder;
 import cout970.auction.util.YellowPages;
-import jade.content.lang.sl.SLCodec;
+import cout970.ontology.AuctionOntology;
+import cout970.ontology.Book;
 import jade.core.Agent;
 
 import java.util.Map;
@@ -22,7 +23,9 @@ public class Buyer extends Agent {
     protected void setup() {
         YellowPages.register(this);
 
-        getContentManager().registerLanguage(new SLCodec());
+        getContentManager().registerLanguage(MsgBuilder.CODEC);
+        getContentManager().registerOntology(AuctionOntology.getInstance());
+
         addBehaviour(new BuyerListenStartAuction(this));
         addBehaviour(new BuyerReceivePriceFromSeller(this));
         addBehaviour(new BuyerListenBidResponse(this));

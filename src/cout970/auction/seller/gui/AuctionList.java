@@ -1,8 +1,8 @@
 package cout970.auction.seller.gui;
 
-import cout970.auction.domain.Book;
 import cout970.auction.seller.Auction;
 import cout970.auction.seller.Seller;
+import cout970.ontology.Book;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +42,7 @@ public class AuctionList {
         for (Map.Entry<Book, Auction> entry : seller.getAuctions().entrySet()) {
             JButton button = new JButton();
 
-            String title = "Libro: " + entry.getKey().getName();
+            String title = "Libro: " + entry.getKey().getTitle();
             title += ", Precio: " + String.format("%.2f", entry.getValue().getCurrentPrize());
             title += ", Compradores: " + entry.getValue().getBuyers().size();
             title += ", Pujas: " + entry.getValue().getInterestedBuyers().size();

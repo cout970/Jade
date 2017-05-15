@@ -1,13 +1,16 @@
 package cout970.auction.util;
 
-import jade.content.ContentElement;
+import cout970.ontology.AuctionOntology;
+import jade.content.AgentAction;
 import jade.content.ContentManager;
+import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
+import jade.content.onto.OntologyException;
+import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +19,14 @@ import java.util.List;
  */
 public class MsgBuilder {
 
-    private static final SLCodec CODEC = new SLCodec();
+    public static final SLCodec CODEC = new SLCodec();
 
     private AID sender;
     private List<AID> receivers = new ArrayList<>();
     private String conversationId;
     private int performative;
     private String content;
-    private ContentElement contentObj;
+    private AgentAction contentObj;
     private ContentManager contentManager;
 
     public MsgBuilder setSender(AID sender) {
@@ -56,7 +59,7 @@ public class MsgBuilder {
         return this;
     }
 
-    public MsgBuilder setContentObj(ContentElement contentObj) {
+    public MsgBuilder setContentObj(AgentAction contentObj) {
         this.contentObj = contentObj;
         return this;
     }
@@ -79,17 +82,19 @@ public class MsgBuilder {
         }
 
         msg.setLanguage(CODEC.getName());
+        msg.setOntology(AuctionOntology.getInstance().getName());
+
         if (contentObj != null && contentManager != null) {
-            try {
-                msg.setContentObject(contentObj);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 //            try {
-//                contentManager.fillContent(msg, contentObj);
-//            } catch (Codec.CodecException | OntologyException e) {
+//                msg.setContentObject(contentObj);
+//            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
+            try {
+                contentManager.fillContent(msg, new Action(sender, contentObj));
+            } catch (Codec.CodecException | OntologyException e) {
+                e.printStackTrace();
+            }
         }
 
         if (conversationId != null) {

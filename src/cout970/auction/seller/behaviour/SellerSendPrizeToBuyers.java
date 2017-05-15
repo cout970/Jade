@@ -1,9 +1,10 @@
 package cout970.auction.seller.behaviour;
 
-import cout970.auction.domain.Bid;
 import cout970.auction.seller.Auction;
 import cout970.auction.seller.Seller;
 import cout970.auction.util.MsgBuilder;
+import cout970.ontology.Bid;
+import cout970.ontology.IncreasePrice;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 
@@ -33,7 +34,7 @@ public class SellerSendPrizeToBuyers extends OneShotBehaviour {
                     .setSender(getAgent())
                     .setReceivers(auction.getBuyers())
                     .setConversationId("cfp-1")
-                    .setContentObj(bid)
+                    .setContentObj(new IncreasePrice(bid))
                     .setContentManager(getAgent().getContentManager())
                     .build();
 

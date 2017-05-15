@@ -1,13 +1,14 @@
 package cout970.auction.seller;
 
-import cout970.auction.domain.Book;
 import cout970.auction.seller.behaviour.SellerListenBids;
 import cout970.auction.seller.behaviour.SellerSendPrizeToBuyers;
 import cout970.auction.seller.behaviour.SellerStartAuction;
 import cout970.auction.seller.behaviour.SellerUpdatePrice;
 import cout970.auction.seller.gui.SellerGui;
 import cout970.auction.util.Event;
-import jade.content.lang.sl.SLCodec;
+import cout970.auction.util.MsgBuilder;
+import cout970.ontology.AuctionOntology;
+import cout970.ontology.Book;
 import jade.core.Agent;
 
 import javax.swing.*;
@@ -29,7 +30,9 @@ public class Seller extends Agent {
 
     @Override
     protected void setup() {
-        getContentManager().registerLanguage(new SLCodec());
+        getContentManager().registerLanguage(MsgBuilder.CODEC);
+        getContentManager().registerOntology(AuctionOntology.getInstance());
+
         gui = SellerGui.startGui(this);
         addBehaviour(new SellerListenBids(this));
     }
