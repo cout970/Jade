@@ -12,6 +12,8 @@ import java.util.function.Consumer;
  */
 public class Auction {
 
+    private static final float priceIncrease = 1.5f;
+
     // Compradores en la subasta
     private List<AID> buyers = new ArrayList<>();
     // Compradores dispuestos a pujar
@@ -33,14 +35,16 @@ public class Auction {
         this.book = book;
     }
 
-    public void onIncreasePrice(float newPrice){
+    public void increasePrice(){
+
+        float newPrice = currentPrize + priceIncrease;
+        lastPrice = currentPrize;
+        currentPrize = newPrice;
 
         lastInterestedBuyers.clear();
         lastInterestedBuyers.addAll(interestedBuyers);
         interestedBuyers.clear();
 
-        lastPrice = currentPrize;
-        currentPrize = newPrice;
 
         listeners.forEach((it) -> it.accept(currentPrize));
     }

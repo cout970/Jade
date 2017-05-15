@@ -54,6 +54,10 @@ public class AuctionList {
         seller.getGui().pack();
         seller.getGui().revalidate();
         seller.getGui().repaint();
+        //
+        seller.getGui().pack();
+        seller.getGui().revalidate();
+        seller.getGui().repaint();
     }
 
     public JPanel getRoot() {
