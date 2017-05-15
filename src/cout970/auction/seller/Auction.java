@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  */
 public class Auction {
 
-    private static final float priceIncrease = 1.5f;
+    private float priceIncrease;
 
     // Compradores en la subasta
     private List<AID> buyers = new ArrayList<>();
@@ -29,8 +29,9 @@ public class Auction {
 
     private List<Consumer<Float>> listeners = new ArrayList<>();
 
-    public Auction(float currentPrize, float reservationPrize, Book book) {
+    public Auction(float currentPrize, float reservationPrize, float increment, Book book) {
         this.currentPrize = currentPrize;
+        this.priceIncrease = increment;
         this.reservationPrize = reservationPrize;
         this.book = book;
     }
@@ -44,7 +45,6 @@ public class Auction {
         lastInterestedBuyers.clear();
         lastInterestedBuyers.addAll(interestedBuyers);
         interestedBuyers.clear();
-
 
         listeners.forEach((it) -> it.accept(currentPrize));
     }

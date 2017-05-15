@@ -11,7 +11,7 @@ public class AuctionRef {
     private Book book;
     private AID seller;
     private float localCurrentPrice;
-    private boolean active = true;
+    private float maxPrice;
 
     public AuctionRef(Book book, AID seller, float localCurrentPrice) {
         this.book = book;
@@ -27,19 +27,19 @@ public class AuctionRef {
         return book;
     }
 
+    public float getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(float maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
     public float getLocalCurrentPrice() {
         return localCurrentPrice;
     }
 
     public void setLocalCurrentPrice(float localCurrentPrice) {
         this.localCurrentPrice = localCurrentPrice;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 }

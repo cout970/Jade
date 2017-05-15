@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * Created by cout970 on 5/8/17.
  */
-public class SellerStartAuction extends OneShotBehaviour {
+public class SellerInformAuction extends OneShotBehaviour {
 
     private static final SLCodec CODEC = new SLCodec();
 
     private Auction auction;
 
-    public SellerStartAuction(Seller a, Auction auction) {
+    public SellerInformAuction(Seller a, Auction auction) {
         super(a);
         this.auction = auction;
     }
@@ -42,14 +42,12 @@ public class SellerStartAuction extends OneShotBehaviour {
                 .setPerformative(ACLMessage.INFORM)
                 .setSender(getAgent())
                 .setReceivers(auction.getBuyers())
-                .setConversationId("inform-start-of-auction")
+                .setConversationId("inform-of-auction")
                 .setContentObj(new StartAuction(bid))
                 .setContentManager(getAgent().getContentManager())
                 .build();
 
         getAgent().send(msg);
-        getAgent().addEvent(new Event("Inicio de la subasta", "Invitados " + auction.getBuyers().size() + " compradores"));
-        getAgent().sendPriceToBuyers();
     }
 
     private void updateBuyers(Auction auction) {

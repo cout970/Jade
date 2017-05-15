@@ -42,23 +42,26 @@ public class BuyerReceivePriceFromSeller extends CyclicBehaviour {
             Bid bid = content.getBid();
             AuctionRef ref = getAgent().getAuctions().get(bid.getBook());
 
-            if (ref == null || !msg.getSender().equals(ref.getSeller()) || !ref.isActive()) {
+            if (ref == null || !msg.getSender().equals(ref.getSeller())) {
                 return; // Ignorado
             }
 
-            //Debug
-            if (Math.random() > 0.05) { // puja
+            ref.setLocalCurrentPrice(bid.getPrice());
+            getAgent().getListener().accept("changePrice");
+
+            if (ref.getMaxPrice() >= bid.getPrice()) { // puja
 
                 sendMsg(ref, bid, ACLMessage.PROPOSE);
             } else { // no puja
 
-                ref.setActive(false);
                 sendMsg(ref, bid, ACLMessage.NOT_UNDERSTOOD);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private void sendMsg(AuctionRef ref, Bid bid, int type) {
         ACLMessage response = new MsgBuilder()

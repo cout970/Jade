@@ -2,7 +2,7 @@ package cout970.auction.seller;
 
 import cout970.auction.seller.behaviour.SellerListenBids;
 import cout970.auction.seller.behaviour.SellerSendPrizeToBuyers;
-import cout970.auction.seller.behaviour.SellerStartAuction;
+import cout970.auction.seller.behaviour.SellerInformAuction;
 import cout970.auction.seller.behaviour.SellerUpdatePrice;
 import cout970.auction.seller.gui.SellerGui;
 import cout970.auction.util.Event;
@@ -37,15 +37,21 @@ public class Seller extends Agent {
         addBehaviour(new SellerListenBids(this));
     }
 
-    public void startAuction(Book book, float initialPrice, float reservationPrice) {
-        Auction auction = new Auction(initialPrice, reservationPrice, book);
+    public void startAuction(Book book, float initialPrice, float reservationPrice, float increment) {
+        Auction auction = new Auction(initialPrice, reservationPrice, increment, book);
         auctions.put(book, auction);
-        addBehaviour(new SellerStartAuction(this, auction));
+
+        announceAuction(auction);
         addBehaviour(new SellerUpdatePrice(this, auction));
+        addEvent(new Event("Inicio de la subasta", "Iniciada la subasta del libro: " + book.getTitle()));
     }
 
     public void sendPriceToBuyers() {
         addBehaviour(new SellerSendPrizeToBuyers(this));
+    }
+
+    public void announceAuction(Auction auction) {
+        addBehaviour(new SellerInformAuction(this, auction));
     }
 
     public JFrame getGui() {
@@ -79,5 +85,9 @@ public class Seller extends Agent {
 
     public List<Event> getEvents() {
         return events;
+    }
+
+    public List<Consumer<Event>> getListener() {
+        return eventListeners;
     }
 }

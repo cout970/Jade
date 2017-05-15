@@ -19,16 +19,42 @@ public class SellerGui {
     private JButton eventosButton;
     private JTextField textInitialPrice;
     private JTextField textReservation;
+    private JTextField textIncrement;
 
     public SellerGui(Seller seller) {
+        error.setText("");
         nuevaSubastaButton.addActionListener(e -> {
-            Book book = new Book("12345", "Libro 1");
-            seller.startAuction(book, 50.0f, 70.0f);
+            try {
+                String ISBN = textISBN.getText();
+                String name = textName.getText();
+                if (ISBN == null || ISBN.isEmpty()) {
+                    throw new IllegalArgumentException("ISBN invalido");
+                }
+                if (name == null || name.isEmpty()) {
+                    throw new IllegalArgumentException("Titulo invalido");
+                }
+
+                float init = Float.parseFloat(textInitialPrice.getText());
+                float reserve = Float.parseFloat(textReservation.getText());
+                float increment = Float.parseFloat(textIncrement.getText());
+                if(init <= 0 || reserve <= 0 || increment <= 0){
+                    throw new IllegalArgumentException("Valor invalido");
+                }
+
+                Book book = new Book(ISBN, name);
+                seller.startAuction(book, init, reserve, increment);
+                //goto lista de subastas
+                AuctionList list = new AuctionList(seller);
+                seller.getGui().setContentPane(list.getRoot());
+                list.updateList();
+            } catch (Exception e1) {
+                error.setText(e1.getMessage());
+            }
         });
         listaDeSubastasButton.addActionListener(e -> {
-            seller.getGui().setContentPane(new AuctionList(seller).getRoot());
-            seller.getGui().revalidate();
-            seller.getGui().repaint();
+            AuctionList list = new AuctionList(seller);
+            seller.getGui().setContentPane(list.getRoot());
+            list.updateList();
         });
         eventosButton.addActionListener(e -> {
             seller.getGui().setContentPane(new EventGui(seller).getRoot());
@@ -41,9 +67,16 @@ public class SellerGui {
     }
 
     public static JFrame startGui(Seller seller) {
-        JFrame frame = new JFrame("SellerGui");
+        UIManager.LookAndFeelInfo[] lafi = UIManager.getInstalledLookAndFeels();
+        try {
+            UIManager.setLookAndFeel(lafi[1].getClassName());
+        } catch (ClassNotFoundException | InstantiationException | UnsupportedLookAndFeelException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        JFrame frame = new JFrame(seller.getLocalName());
         frame.setContentPane(new SellerGui(seller).root);
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         return frame;

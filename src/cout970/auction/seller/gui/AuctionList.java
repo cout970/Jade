@@ -5,6 +5,7 @@ import cout970.auction.seller.Seller;
 import cout970.ontology.Book;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Collections;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class AuctionList {
     private JScrollPane listWrapper;
     private JLabel label;
     private JPanel root;
-    private JPanel list;
+    private JTable table1;
 
     private Seller seller;
 
@@ -33,29 +34,45 @@ public class AuctionList {
         for (Auction auction : seller.getAuctions().values()) {
             auction.setListeners(Collections.singletonList((price) -> updateList()));
         }
-        updateList();
+        seller.registerListener((e) -> updateList());
+
+        DefaultTableModel model = (DefaultTableModel) table1.getModel();
+        model.addColumn("Titulo");
+        model.addColumn("Precio");
+        model.addColumn("Precio min");
+        model.addColumn("Compradores");
+        model.addColumn("Pujas");
+        model.addColumn("Primero");
     }
 
-    private void updateList() {
-        list.removeAll();
-        list.setLayout(new FlowLayout(FlowLayout.CENTER));
+    public void updateList() {
+        DefaultTableModel model = (DefaultTableModel) table1.getModel();
+        model.getDataVector().clear();
+
         for (Map.Entry<Book, Auction> entry : seller.getAuctions().entrySet()) {
-            JButton button = new JButton();
+            String primero;
 
-            String title = "Libro: " + entry.getKey().getTitle();
-            title += ", Precio: " + String.format("%.2f", entry.getValue().getCurrentPrize());
-            title += ", Compradores: " + entry.getValue().getBuyers().size();
-            title += ", Pujas: " + entry.getValue().getInterestedBuyers().size();
-            title += ", Precio minimo: " + entry.getValue().getReservationPrize();
+            System.out.println("Interested: "+entry.getValue().getInterestedBuyers().size());
+            System.out.println("Last Interested: "+entry.getValue().getLastInterestedBuyers().size());
+            System.out.println("All: "+entry.getValue().getBuyers().size());
 
-            button.setText(title);
-            list.add(button);
+            if (entry.getValue().getInterestedBuyers().isEmpty()) {
+                primero = entry.getValue().getLastInterestedBuyers().isEmpty() ?
+                        "Nadie" :
+                        entry.getValue().getLastInterestedBuyers().get(0).getLocalName();
+            } else {
+                primero = entry.getValue().getInterestedBuyers().get(0).getLocalName();
+            }
+
+            model.addRow(new Object[]{
+                    entry.getKey().getTitle(),
+                    entry.getValue().getCurrentPrize(),
+                    entry.getValue().getReservationPrize(),
+                    entry.getValue().getBuyers().size(),
+                    entry.getValue().getInterestedBuyers().size(),
+                    primero
+            });
         }
-        seller.getGui().pack();
-        seller.getGui().revalidate();
-        seller.getGui().repaint();
-        //
-        seller.getGui().pack();
         seller.getGui().revalidate();
         seller.getGui().repaint();
     }
