@@ -72,7 +72,7 @@ public class Seller extends Agent {
         System.out.println(e.getTitle() + ": " + e.getDescription());
     }
 
-    public void registerListener(Consumer<Event> listener){
+    public void registerListener(Consumer<Event> listener) {
         eventListeners.clear();
         eventListeners.add(listener);
     }

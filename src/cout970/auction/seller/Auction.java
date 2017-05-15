@@ -35,7 +35,7 @@ public class Auction {
         this.book = book;
     }
 
-    public void increasePrice(){
+    public void increasePrice() {
 
         float newPrice = currentPrize + priceIncrease;
         lastPrice = currentPrize;

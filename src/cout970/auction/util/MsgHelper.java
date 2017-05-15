@@ -6,7 +6,6 @@ import jade.content.lang.Codec;
 import jade.content.onto.OntologyException;
 import jade.content.onto.basic.Action;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.UnreadableException;
 
 /**
  * Created by cout970 on 2017/05/11.

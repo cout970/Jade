@@ -8,7 +8,6 @@ import cout970.auction.util.YellowPages;
 import cout970.ontology.Bid;
 import cout970.ontology.StartAuction;
 import jade.content.lang.sl.SLCodec;
-import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -49,7 +48,7 @@ public class SellerStartAuction extends OneShotBehaviour {
                 .build();
 
         getAgent().send(msg);
-        getAgent().addEvent(new Event("Inicio de la subasta", "Invitados "+auction.getBuyers().size()+" compradores"));
+        getAgent().addEvent(new Event("Inicio de la subasta", "Invitados " + auction.getBuyers().size() + " compradores"));
         getAgent().sendPriceToBuyers();
     }
 

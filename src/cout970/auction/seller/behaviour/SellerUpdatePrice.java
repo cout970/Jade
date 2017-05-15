@@ -6,7 +6,6 @@ import cout970.auction.util.Event;
 import cout970.auction.util.MsgBuilder;
 import cout970.ontology.Bid;
 import cout970.ontology.InformWinner;
-import cout970.ontology.StartAuction;
 import jade.core.AID;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;

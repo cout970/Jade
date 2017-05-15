@@ -50,7 +50,7 @@ public class SellerListenBids extends CyclicBehaviour {
             return;
         }
         int perfomative;
-        getAgent().addEvent(new Event("Puja", msg.getSender().getLocalName() + " ha pujado "+String.format("%.2f", bid.getPrice())));
+        getAgent().addEvent(new Event("Puja", msg.getSender().getLocalName() + " ha pujado " + String.format("%.2f", bid.getPrice())));
 
         if (bid.getPrice() == auction.getCurrentPrize()) {
             perfomative = ACLMessage.ACCEPT_PROPOSAL;

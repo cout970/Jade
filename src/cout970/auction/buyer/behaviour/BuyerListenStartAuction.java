@@ -44,7 +44,7 @@ public class BuyerListenStartAuction extends CyclicBehaviour {
         AuctionRef ref = new AuctionRef(bid.getBook(), msg.getSender(), bid.getPrice());
 
         auctions.put(bid.getBook(), ref);
-        System.out.println("["+getAgent().getLocalName()+"] Subscribed to an auction for the book: " + ref.getBook().getTitle());
+        System.out.println("[" + getAgent().getLocalName() + "] Subscribed to an auction for the book: " + ref.getBook().getTitle());
 
     }
 }
