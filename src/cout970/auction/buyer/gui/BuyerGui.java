@@ -5,9 +5,6 @@ import cout970.auction.buyer.Buyer;
 import cout970.ontology.Book;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 /**
@@ -30,7 +27,7 @@ public class BuyerGui {
     }
 
     private void update(Buyer buyer) {
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.removeAll();
         for (Map.Entry<Book, AuctionRef> entry : buyer.getAuctions().entrySet()) {
 
@@ -54,12 +51,13 @@ public class BuyerGui {
     }
 
     public static JFrame startGui(Buyer buyer) {
-        UIManager.LookAndFeelInfo[] lafi = UIManager.getInstalledLookAndFeels();
-        try {
-            UIManager.setLookAndFeel(lafi[1].getClassName());
-        } catch (ClassNotFoundException | InstantiationException | UnsupportedLookAndFeelException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+//        UIManager.LookAndFeelInfo[] lafi = UIManager.getInstalledLookAndFeels();
+//        System.out.println(Arrays.toString(lafi));
+//        try {
+//            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+//        } catch (ClassNotFoundException | InstantiationException | UnsupportedLookAndFeelException | IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
 
         JFrame frame = new JFrame(buyer.getLocalName());
         frame.setContentPane(new BuyerGui(buyer).root);

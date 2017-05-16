@@ -6,7 +6,7 @@ import cout970.auction.util.MsgHelper;
 import cout970.ontology.Bid;
 import cout970.ontology.Book;
 import cout970.ontology.InformWinner;
-import cout970.ontology.StartAuction;
+import cout970.ontology.InformAuction;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -56,7 +56,7 @@ public class BuyerListenAuctionLifeCycle extends CyclicBehaviour {
     }
 
     private void start(ACLMessage msg) {
-        StartAuction content = MsgHelper.getContentObj(msg, getAgent().getContentManager());
+        InformAuction content = MsgHelper.getContentObj(msg, getAgent().getContentManager());
         Bid bid = content.getBid();
 
         Map<Book, AuctionRef> auctions = getAgent().getAuctions();

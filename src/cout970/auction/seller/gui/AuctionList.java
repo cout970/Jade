@@ -6,7 +6,6 @@ import cout970.ontology.Book;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.util.Collections;
 import java.util.Map;
 
@@ -43,6 +42,7 @@ public class AuctionList {
         model.addColumn("Compradores");
         model.addColumn("Pujas");
         model.addColumn("Primero");
+        model.addColumn("Estado");
     }
 
     public void updateList() {
@@ -50,18 +50,14 @@ public class AuctionList {
         model.getDataVector().clear();
 
         for (Map.Entry<Book, Auction> entry : seller.getAuctions().entrySet()) {
-            String primero;
-
-            System.out.println("Interested: "+entry.getValue().getInterestedBuyers().size());
-            System.out.println("Last Interested: "+entry.getValue().getLastInterestedBuyers().size());
-            System.out.println("All: "+entry.getValue().getBuyers().size());
+            String first;
 
             if (entry.getValue().getInterestedBuyers().isEmpty()) {
-                primero = entry.getValue().getLastInterestedBuyers().isEmpty() ?
+                first = entry.getValue().getLastInterestedBuyers().isEmpty() ?
                         "Nadie" :
                         entry.getValue().getLastInterestedBuyers().get(0).getLocalName();
             } else {
-                primero = entry.getValue().getInterestedBuyers().get(0).getLocalName();
+                first = entry.getValue().getInterestedBuyers().get(0).getLocalName();
             }
 
             model.addRow(new Object[]{
@@ -70,7 +66,8 @@ public class AuctionList {
                     entry.getValue().getReservationPrize(),
                     entry.getValue().getBuyers().size(),
                     entry.getValue().getInterestedBuyers().size(),
-                    primero
+                    first,
+                    entry.getValue().getState().getTranslatedName()
             });
         }
         seller.getGui().revalidate();

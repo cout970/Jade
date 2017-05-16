@@ -59,4 +59,12 @@ public class Book implements jade.content.Concept {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Libro{" +
+                "ISBN='" + ISBN + '\'' +
+                "titulo='" + title + '\'' +
+                '}';
+    }
 }

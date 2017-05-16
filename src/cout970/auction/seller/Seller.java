@@ -1,9 +1,6 @@
 package cout970.auction.seller;
 
-import cout970.auction.seller.behaviour.SellerListenBids;
-import cout970.auction.seller.behaviour.SellerSendPrizeToBuyers;
-import cout970.auction.seller.behaviour.SellerInformAuction;
-import cout970.auction.seller.behaviour.SellerUpdatePrice;
+import cout970.auction.seller.behaviour.*;
 import cout970.auction.seller.gui.SellerGui;
 import cout970.auction.util.Event;
 import cout970.auction.util.MsgBuilder;
@@ -37,23 +34,37 @@ public class Seller extends Agent {
         addBehaviour(new SellerListenBids(this));
     }
 
-    public void startAuction(Book book, float initialPrice, float reservationPrice, float increment) {
+    public void stop() {
+        doDelete();
+    }
+
+    // Crear
+    public void createAuction(Book book, float initialPrice, float reservationPrice, float increment) {
         Auction auction = new Auction(initialPrice, reservationPrice, increment, book);
         auctions.put(book, auction);
 
-        announceAuction(auction);
-        addBehaviour(new SellerUpdatePrice(this, auction));
-        addEvent(new Event("Inicio de la subasta", "Iniciada la subasta del libro: " + book.getTitle()));
+        sendAuctionAnnouncement(auction);
+        addBehaviour(new SellerStartAuction(this, auction));
+        addEvent(new Event("Creacion de la subasta", "Libro: " + book.getTitle()));
     }
 
-    public void sendPriceToBuyers() {
-        addBehaviour(new SellerSendPrizeToBuyers(this));
+    // Actualizar precio
+    public void sendPriceToBuyers(Auction auction) {
+        addBehaviour(new SellerSendPrizeToBuyers(this, auction));
     }
 
-    public void announceAuction(Auction auction) {
+    // Anunciar
+    public void sendAuctionAnnouncement(Auction auction) {
         addBehaviour(new SellerInformAuction(this, auction));
     }
 
+    // Empezar subasta
+    public void startAuction(Auction auction) {
+        addBehaviour(new SellerUpdatePrice(this, auction));
+    }
+
+
+    // GUI
     public JFrame getGui() {
         return gui;
     }
@@ -64,13 +75,12 @@ public class Seller extends Agent {
         gui = null;
     }
 
+    // Getters & setters
     public Map<Book, Auction> getAuctions() {
         return auctions;
     }
 
-    public void stop() {
-        doDelete();
-    }
+    // Gui events
 
     public void addEvent(Event e) {
         events.add(e);

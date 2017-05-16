@@ -27,6 +27,8 @@ public class Auction {
     private float reservationPrize;
     private Book book;
 
+    private AuctionState state = AuctionState.WAITING;
+
     private List<Consumer<Float>> listeners = new ArrayList<>();
 
     public Auction(float currentPrize, float reservationPrize, float increment, Book book) {
@@ -47,6 +49,14 @@ public class Auction {
         interestedBuyers.clear();
 
         listeners.forEach((it) -> it.accept(currentPrize));
+    }
+
+    public AuctionState getState() {
+        return state;
+    }
+
+    public void setState(AuctionState state) {
+        this.state = state;
     }
 
     public List<AID> getLastInterestedBuyers() {
@@ -82,6 +92,7 @@ public class Auction {
     }
 
     public void onEnd() {
+        setState(AuctionState.FINISHED);
         listeners.forEach((it) -> it.accept(currentPrize));
     }
 }

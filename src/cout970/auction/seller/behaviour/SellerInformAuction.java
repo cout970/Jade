@@ -2,11 +2,10 @@ package cout970.auction.seller.behaviour;
 
 import cout970.auction.seller.Auction;
 import cout970.auction.seller.Seller;
-import cout970.auction.util.Event;
 import cout970.auction.util.MsgBuilder;
 import cout970.auction.util.YellowPages;
 import cout970.ontology.Bid;
-import cout970.ontology.StartAuction;
+import cout970.ontology.InformAuction;
 import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.behaviours.OneShotBehaviour;
@@ -43,7 +42,7 @@ public class SellerInformAuction extends OneShotBehaviour {
                 .setSender(getAgent())
                 .setReceivers(auction.getBuyers())
                 .setConversationId("inform-of-auction")
-                .setContentObj(new StartAuction(bid))
+                .setContentObj(new InformAuction(bid))
                 .setContentManager(getAgent().getContentManager())
                 .build();
 

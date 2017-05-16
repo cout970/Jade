@@ -42,13 +42,13 @@ public class SellerGui {
                 }
 
                 Book book = new Book(ISBN, name);
-                seller.startAuction(book, init, reserve, increment);
+                seller.createAuction(book, init, reserve, increment);
                 //goto lista de subastas
                 AuctionList list = new AuctionList(seller);
                 seller.getGui().setContentPane(list.getRoot());
                 list.updateList();
             } catch (Exception e1) {
-                error.setText(e1.getMessage());
+                error.setText(e1.getClass().getSimpleName() +": "+e1.getMessage());
             }
         });
         listaDeSubastasButton.addActionListener(e -> {
@@ -67,12 +67,11 @@ public class SellerGui {
     }
 
     public static JFrame startGui(Seller seller) {
-        UIManager.LookAndFeelInfo[] lafi = UIManager.getInstalledLookAndFeels();
-        try {
-            UIManager.setLookAndFeel(lafi[1].getClassName());
-        } catch (ClassNotFoundException | InstantiationException | UnsupportedLookAndFeelException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+//        } catch (ClassNotFoundException | InstantiationException | UnsupportedLookAndFeelException | IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
 
         JFrame frame = new JFrame(seller.getLocalName());
         frame.setContentPane(new SellerGui(seller).root);

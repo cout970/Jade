@@ -2,10 +2,8 @@ package cout970.auction.buyer.behaviour;
 
 import cout970.auction.buyer.AuctionRef;
 import cout970.auction.buyer.Buyer;
-import cout970.auction.util.MsgBuilder;
 import cout970.auction.util.MsgHelper;
 import cout970.ontology.Bid;
-import cout970.ontology.BidUp;
 import cout970.ontology.IncreasePrice;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -47,32 +45,11 @@ public class BuyerReceivePriceFromSeller extends CyclicBehaviour {
             }
 
             ref.setLocalCurrentPrice(bid.getPrice());
+            getAgent().bidUp(ref);
             getAgent().getListener().accept("changePrice");
-
-            if (ref.getMaxPrice() >= bid.getPrice()) { // puja
-
-                sendMsg(ref, bid, ACLMessage.PROPOSE);
-            } else { // no puja
-
-                sendMsg(ref, bid, ACLMessage.NOT_UNDERSTOOD);
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    private void sendMsg(AuctionRef ref, Bid bid, int type) {
-        ACLMessage response = new MsgBuilder()
-                .setPerformative(type)
-                .setSender(getAgent())
-                .setReceiver(ref.getSeller())
-                .setConversationId("auction-bid")
-                .setContentObj(new BidUp(bid))
-                .setContentManager(getAgent().getContentManager())
-                .build();
-
-        getAgent().send(response);
     }
 }

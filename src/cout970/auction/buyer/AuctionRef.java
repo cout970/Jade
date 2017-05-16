@@ -11,7 +11,8 @@ public class AuctionRef {
     private Book book;
     private AID seller;
     private float localCurrentPrice;
-    private float maxPrice;
+    private float maxPrice = -1;
+    private boolean bidUp;
 
     public AuctionRef(Book book, AID seller, float localCurrentPrice) {
         this.book = book;
@@ -41,5 +42,13 @@ public class AuctionRef {
 
     public void setLocalCurrentPrice(float localCurrentPrice) {
         this.localCurrentPrice = localCurrentPrice;
+    }
+
+    public boolean hasBidUp() {
+        return bidUp;
+    }
+
+    public void setBidUp(boolean pujado) {
+        this.bidUp = pujado;
     }
 }

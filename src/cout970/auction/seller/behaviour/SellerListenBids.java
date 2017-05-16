@@ -1,6 +1,7 @@
 package cout970.auction.seller.behaviour;
 
 import cout970.auction.seller.Auction;
+import cout970.auction.seller.AuctionState;
 import cout970.auction.seller.Seller;
 import cout970.auction.util.Event;
 import cout970.auction.util.MsgBuilder;
@@ -43,7 +44,7 @@ public class SellerListenBids extends CyclicBehaviour {
         Bid bid = content.getBid();
         Auction auction = getAgent().getAuctions().get(bid.getBook());
 
-        if (auction == null) {
+        if (auction == null || auction.getState() != AuctionState.RUNNING) {
             return;
         }
         if (!accept) {

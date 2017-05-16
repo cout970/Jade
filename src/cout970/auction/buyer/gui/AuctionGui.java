@@ -18,6 +18,7 @@ public class AuctionGui {
     private JPanel root;
     private JTextField textMaxBid;
     private JLabel maxBid;
+    private JLabel bidup;
 
     public AuctionGui(Buyer buyer, Book book) {
         backButton.addActionListener(e -> {
@@ -32,6 +33,7 @@ public class AuctionGui {
 
                 float maxPrice = Float.parseFloat(textMaxBid.getText());
                 auction.setMaxPrice(maxPrice);
+                buyer.bidUp(auction);
 
                 update(buyer, book);
             } catch (Exception e1) {
@@ -57,7 +59,8 @@ public class AuctionGui {
         isbn.setText(book.getISBN());
         nombre.setText(book.getTitle());
         precio.setText(String.format("%.2f", auction.getLocalCurrentPrice()));
-        maxBid.setText(String.format("%.2f", auction.getMaxPrice()));
+        maxBid.setText(String.format("%.2f", Math.max(0, auction.getMaxPrice())));
+        bidup.setText(auction.hasBidUp() ? "Si" : "No");
     }
 
     public JPanel getRoot() {

@@ -66,7 +66,7 @@ public class AuctionOntology extends jade.content.onto.Ontology {
             AgentActionSchema increasePriceSchema = new AgentActionSchema(INCREASEPRICE);
             add(increasePriceSchema, cout970.ontology.IncreasePrice.class);
             AgentActionSchema startAuctionSchema = new AgentActionSchema(STARTAUCTION);
-            add(startAuctionSchema, cout970.ontology.StartAuction.class);
+            add(startAuctionSchema, InformAuction.class);
 
             // adding AID(s)
 

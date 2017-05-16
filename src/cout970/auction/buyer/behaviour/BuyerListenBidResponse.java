@@ -1,6 +1,10 @@
 package cout970.auction.buyer.behaviour;
 
+import cout970.auction.buyer.AuctionRef;
 import cout970.auction.buyer.Buyer;
+import cout970.auction.util.MsgHelper;
+import cout970.ontology.BidUp;
+import cout970.ontology.Book;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -30,8 +34,19 @@ public class BuyerListenBidResponse extends CyclicBehaviour {
         if (msg == null) {
             return;
         }
-        if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-            System.out.println("[" + getAgent().getLocalName() + "] Bid aceptado");
+
+        BidUp bidUp = MsgHelper.getContentObj(msg, getAgent().getContentManager());
+        Book book = bidUp.getBid().getBook();
+        AuctionRef auction = getAgent().getAuctions().get(book);
+        if (auction == null) {
+            return;
         }
+
+        if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
+            auction.setBidUp(true);
+        } else {
+            auction.setBidUp(false);
+        }
+        getAgent().getListener().accept("setBidUp");
     }
 }

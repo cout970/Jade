@@ -13,8 +13,11 @@ import jade.lang.acl.ACLMessage;
  */
 public class SellerSendPrizeToBuyers extends OneShotBehaviour {
 
-    public SellerSendPrizeToBuyers(Seller a) {
+    private Auction auction;
+
+    public SellerSendPrizeToBuyers(Seller a, Auction auction) {
         super(a);
+        this.auction = auction;
     }
 
     @Override
@@ -24,21 +27,18 @@ public class SellerSendPrizeToBuyers extends OneShotBehaviour {
 
     @Override
     public void action() {
-        System.out.println("[" + getAgent().getLocalName() + "] Sending Prize To Buyers");
-        for (Auction auction : getAgent().getAuctions().values()) {
 
-            Bid bid = new Bid(auction.getBook(), auction.getCurrentPrize());
+        Bid bid = new Bid(auction.getBook(), auction.getCurrentPrize());
 
-            ACLMessage msg = new MsgBuilder()
-                    .setPerformative(ACLMessage.INFORM)
-                    .setSender(getAgent())
-                    .setReceivers(auction.getBuyers())
-                    .setConversationId("cfp-1")
-                    .setContentObj(new IncreasePrice(bid))
-                    .setContentManager(getAgent().getContentManager())
-                    .build();
+        ACLMessage msg = new MsgBuilder()
+                .setPerformative(ACLMessage.INFORM)
+                .setSender(getAgent())
+                .setReceivers(auction.getBuyers())
+                .setConversationId("cfp-1")
+                .setContentObj(new IncreasePrice(bid))
+                .setContentManager(getAgent().getContentManager())
+                .build();
 
-            getAgent().send(msg);
-        }
+        getAgent().send(msg);
     }
 }

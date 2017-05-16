@@ -7,14 +7,14 @@ package cout970.ontology;
  * @author OntologyBeanGenerator v4.1
  * @version 2017/05/15, 12:25:40
  */
-public class StartAuction implements jade.content.AgentAction {
+public class InformAuction implements jade.content.AgentAction {
 
     private Bid bid;
 
-    public StartAuction() {
+    public InformAuction() {
     }
 
-    public StartAuction(Bid bid) {
+    public InformAuction(Bid bid) {
         this.bid = bid;
     }
 

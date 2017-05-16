@@ -1,7 +1,8 @@
 package cout970.auction.buyer;
 
-import cout970.auction.buyer.behaviour.BuyerListenBidResponse;
+import cout970.auction.buyer.behaviour.BuyerBidUp;
 import cout970.auction.buyer.behaviour.BuyerListenAuctionLifeCycle;
+import cout970.auction.buyer.behaviour.BuyerListenBidResponse;
 import cout970.auction.buyer.behaviour.BuyerReceivePriceFromSeller;
 import cout970.auction.buyer.gui.BuyerGui;
 import cout970.auction.util.MsgBuilder;
@@ -38,6 +39,10 @@ public class Buyer extends Agent {
         addBehaviour(new BuyerListenBidResponse(this));
     }
 
+    public void bidUp(AuctionRef ref) {
+        addBehaviour(new BuyerBidUp(this, ref));
+    }
+
     public void stop() {
         doDelete();
     }
@@ -45,14 +50,20 @@ public class Buyer extends Agent {
     @Override
     protected void takeDown() {
         YellowPages.unregister(this);
-        if (gui != null) gui.setVisible(false);
+        if (gui != null) {
+            gui.setVisible(false);
+        }
         gui = null;
     }
+
+    // GUI
 
     public JFrame getGui() {
         return gui;
     }
 
+
+    // Getters & setters
     public Map<Book, AuctionRef> getAuctions() {
         return auctions;
     }
