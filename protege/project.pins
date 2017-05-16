@@ -1,0 +1,69 @@
+; Mon May 15 13:19:36 CEST 2017
+; 
+;+ (version "3.4")
+;+ (build "Build 533")
+
+([addresses] of  %3AJADE-SLOT
+
+	(%3AJADE-UNNAMED-SLOT FALSE))
+
+([AgentAction] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE TRUE))
+
+([AID] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE TRUE))
+
+([Bid] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE FALSE))
+
+([BidUp] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE FALSE))
+
+([Book] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE FALSE))
+
+([Concept] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE TRUE))
+
+([IncreasePrice] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE FALSE))
+
+([InformWinner] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE FALSE))
+
+([name] of  %3AJADE-SLOT
+
+	(%3AJADE-UNNAMED-SLOT FALSE))
+
+([Predicate] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE TRUE))
+
+([project+annotation] of  %3APROJECT-ANNOTATION
+
+	(%3AONTOLOGYNAME "Auction")
+	(%3APACKAGE "cout970.ontology"))
+
+([resolvers] of  %3AJADE-SLOT
+
+	(%3AJADE-UNNAMED-SLOT FALSE))
+
+([SimpleJADEAbstractOntology_00014] of  %3ASTANDARD-FACET
+
+	(%3AASSOCIATED-SLOT [%3AJADE-NAME]))
+
+([SimpleJADEAbstractOntology_00016] of  %3ASTANDARD-FACET
+
+	(%3AASSOCIATED-SLOT [%3AJADE-UNNAMED-SLOT]))
+
+([StartAuction] of  %3AJADE-CLASS
+
+	(%3AJADE-IGNORE FALSE))
